@@ -1,4 +1,4 @@
-package com.thanhsonitnic.ungdungdocsach;
+package com.thanhsonitnic.ungdungdocsach.activities;
 
 import android.os.Bundle;
 
@@ -13,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.thanhsonitnic.ungdungdocsach.R;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -21,7 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 
-public class MainActivity extends AppCompatActivity {
+public class BookActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
