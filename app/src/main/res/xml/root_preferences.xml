@@ -14,20 +14,29 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
-    
-    <PreferenceCategory app:title="@string/sync_header">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory android:title="Content">
         <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
+            app:key="isDarkTheme"
+            app:title="Dark theme" />
 
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+        <SeekBarPreference
+            android:key="textSize"
+            android:title="Text size"
+            app:min="10"
+            android:max="50"
+            android:defaultValue="18">
+        </SeekBarPreference>
+
+        <SeekBarPreference
+            android:key="timeAutoScroll"
+            android:title="Time auto scroll"
+            app:min="5"
+            android:max="60"
+            android:defaultValue="15">
+        </SeekBarPreference>
 
     </PreferenceCategory>
 

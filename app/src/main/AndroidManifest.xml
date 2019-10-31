@@ -11,14 +11,18 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.BookActivity">
+            </meta-data>
+        </activity>
         <activity
             android:name=".activities.ListBookActivity"
             android:label="@string/title_activity_list_book"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
