@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "48976545491",
+    "firebase_url": "https://ungdungdocsach.firebaseio.com",
+    "project_id": "ungdungdocsach",
+    "storage_bucket": "ungdungdocsach.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:48976545491:android:50abddae45718ec65df626",
+        "android_client_info": {
+          "package_name": "com.thanhsonitnic.ungdungdocsach"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "48976545491-o302l6kpvdbd66l1uo6b9a5e8e0utvbf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thanhsonitnic.ungdungdocsach",
+            "certificate_hash": "b71385c716cf08c816440cd78f95332030ba5ec3"
+          }
+        },
+        {
+          "client_id": "48976545491-sb5utb9ut9vshrtn948nk6jbmjb54qtq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbvfbPAWQOeg156gzMDQblqtPrg6Xo84o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "48976545491-sb5utb9ut9vshrtn948nk6jbmjb54qtq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
