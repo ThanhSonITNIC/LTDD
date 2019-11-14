@@ -1,6 +1,7 @@
 package com.thanhsonitnic.ungdungdocsach.models;
 
 public class Book {
+    private String id;
     private String title;
     private int image;
     private String author;
@@ -9,10 +10,15 @@ public class Book {
 
     }
 
-    public Book(String title, int image, String author) {
+    public Book(String id, String title, int image, String author) {
+        this.id = id;
         this.title = title;
         this.image = image;
         this.author = author;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {

@@ -10,21 +10,9 @@ public class ListBook {
     private ArrayList<Book> books = new ArrayList<>();
 
     private ListBook() {
-        books.add(new Book("Ký sự code dạo", R.drawable.kscd, "Phạm Huy Hoàng"));
-        books.add(new Book("Ngày xưa có một con bò", R.drawable.nxcmcb, "Phan Thanh Sơn"));
-        books.add(new Book("Bản thiết kế vĩ đại", R.drawable.btkvd, "Stephen Hawking"));
-        books.add(new Book("Ký sự code dạo", R.drawable.kscd, "Phạm Huy Hoàng"));
-        books.add(new Book("Ngày xưa có một con bò", R.drawable.nxcmcb, "Phan Thanh Sơn"));
-        books.add(new Book("Bản thiết kế vĩ đại", R.drawable.btkvd, "Stephen Hawking"));
-        books.add(new Book("Ký sự code dạo", R.drawable.kscd, "Phạm Huy Hoàng"));
-        books.add(new Book("Ngày xưa có một con bò", R.drawable.nxcmcb, "Phan Thanh Sơn"));
-        books.add(new Book("Bản thiết kế vĩ đại", R.drawable.btkvd, "Stephen Hawking"));
-        books.add(new Book("Ký sự code dạo", R.drawable.kscd, "Phạm Huy Hoàng"));
-        books.add(new Book("Ngày xưa có một con bò", R.drawable.nxcmcb, "Phan Thanh Sơn"));
-        books.add(new Book("Bản thiết kế vĩ đại", R.drawable.btkvd, "Stephen Hawking"));
-        books.add(new Book("Ký sự code dạo", R.drawable.kscd, "Phạm Huy Hoàng"));
-        books.add(new Book("Ngày xưa có một con bò", R.drawable.nxcmcb, "Phan Thanh Sơn"));
-        books.add(new Book("Bản thiết kế vĩ đại", R.drawable.btkvd, "Stephen Hawking"));
+        books.add(new Book("hlj933h3hd3", "Ký sự code dạo", R.drawable.kscd, "Phạm Huy Hoàng"));
+        books.add(new Book("943hf4jf832", "Ngày xưa có một con bò", R.drawable.nxcmcb, "Phan Thanh Sơn"));
+        books.add(new Book("s0ud44426i7", "Bản thiết kế vĩ đại", R.drawable.btkvd, "Stephen Hawking"));
     }
 
     public static ListBook getInstance(){
