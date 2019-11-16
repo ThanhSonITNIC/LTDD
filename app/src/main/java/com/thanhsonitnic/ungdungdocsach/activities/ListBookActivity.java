@@ -2,16 +2,12 @@ package com.thanhsonitnic.ungdungdocsach.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.thanhsonitnic.ungdungdocsach.R;
 import com.thanhsonitnic.ungdungdocsach.adapters.ListBookAdapter;
+import com.thanhsonitnic.ungdungdocsach.models.Book;
 import com.thanhsonitnic.ungdungdocsach.models.ListBook;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +40,9 @@ public class ListBookActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ListBookActivity.this, BookActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(Book.KEY_ID, String.valueOf(position));
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

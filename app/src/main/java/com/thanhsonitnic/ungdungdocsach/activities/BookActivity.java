@@ -9,18 +9,19 @@ import androidx.core.view.GravityCompat;
 import androidx.navigation.ui.AppBarConfiguration;
 import com.google.android.material.navigation.NavigationView;
 import com.thanhsonitnic.ungdungdocsach.R;
+import com.thanhsonitnic.ungdungdocsach.interfaces.OnBookResultListener;
 import com.thanhsonitnic.ungdungdocsach.interfaces.OnTOCResultListener;
 import com.thanhsonitnic.ungdungdocsach.models.Book;
 import com.thanhsonitnic.ungdungdocsach.models.Chapter;
+import com.thanhsonitnic.ungdungdocsach.models.JacketImage;
 import com.thanhsonitnic.ungdungdocsach.models.Setting;
-
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 public class BookActivity extends AppCompatActivity{
@@ -32,7 +33,9 @@ public class BookActivity extends AppCompatActivity{
     SearchView searchView;
     ArrayList<Chapter> chapterArrayList = new ArrayList<>();
     TextView txtContent, txtTitle, txtAuthor;
+    ImageView imgJackKet;
     Toolbar toolbar;
+    Book book;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class BookActivity extends AppCompatActivity{
         txtContent = findViewById(R.id.txtContent);
         txtTitle = navigationView.getHeaderView(0).findViewById(R.id.txtTitle);
         txtAuthor = navigationView.getHeaderView(0).findViewById(R.id.txtAuthor);
+        imgJackKet = navigationView.getHeaderView(0).findViewById(R.id.imgJacket);
     }
 
     private void addEvents() {
@@ -98,7 +102,7 @@ public class BookActivity extends AppCompatActivity{
      */
     private void receiveInfo(){
         Bundle bundle = getIntent().getExtras();
-        loadBook(new Book(bundle.getString(Book.KEY_ID), bundle.getString(Book.KEY_TITLE), bundle.getInt(Book.KEY_IMAGE), bundle.getString(Book.KEY_AUTHOR)));
+        loadBook(bundle.getString(Book.KEY_ID));
     }
 
     /**
@@ -121,10 +125,20 @@ public class BookActivity extends AppCompatActivity{
     /**
      * Load book infomation on ui
      *
-     * @param book
+     * @param id
      */
-    private void loadBook(Book book) {
+    private void loadBook(String id) {
         final Menu menu = navigationView.getMenu();
+
+        // load book
+        book = new Book(id, new OnBookResultListener() {
+            @Override
+            public void onResult(Book book) {
+                txtTitle.setText(book.getTitle());
+                txtAuthor.setText(book.getAuthor());
+                JacketImage.getInstance().loadImage(imgJackKet, book.getImage());
+            }
+        });
 
         // load table of content
         book.getChapters(new OnTOCResultListener() {
@@ -140,9 +154,6 @@ public class BookActivity extends AppCompatActivity{
             }
         });
 
-        // load book info
-        txtTitle.setText(book.getTitle());
-        txtAuthor.setText(book.getAuthor());
     }
 
     @Override

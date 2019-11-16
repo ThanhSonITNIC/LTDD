@@ -2,7 +2,9 @@ package com.thanhsonitnic.ungdungdocsach.models;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.thanhsonitnic.ungdungdocsach.interfaces.OnBookResultListener;
 import com.thanhsonitnic.ungdungdocsach.interfaces.OnDataCompleteListener;
+import com.thanhsonitnic.ungdungdocsach.interfaces.OnDocumentSnapshotCompleteListener;
 import com.thanhsonitnic.ungdungdocsach.interfaces.OnTOCResultListener;
 
 import java.util.ArrayList;
@@ -10,19 +12,23 @@ import java.util.ArrayList;
 public class Book {
     private String id;
     private String title;
-    private int image;
+    private String image;
     private String author;
 
     public static final String KEY_ID = "hahaha";
-    public static final String KEY_TITLE = "vlxx";
-    public static final String KEY_IMAGE = "dcmm";
-    public static final String KEY_AUTHOR = "hihihi";
 
-    public Book(String id) {
+    public Book(String id, final OnBookResultListener onBookResultListener) {
         this.id = id;
+        Database.getInstance().getBook(id, new OnDocumentSnapshotCompleteListener() {
+            @Override
+            public void onComplete(DocumentSnapshot documentSnapshot) {
+                Book book = new Book(documentSnapshot.getId(), documentSnapshot.getString("Title"), documentSnapshot.getString("Image"), documentSnapshot.getString("Author"));
+                onBookResultListener.onResult(book);
+            }
+        });
     }
 
-    public Book(String id, String title, int image, String author) {
+    public Book(String id, String title, String image, String author) {
         this.id = id;
         this.title = title;
         this.image = image;
@@ -37,26 +43,18 @@ public class Book {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public int getImage() {
+    public String getImage() {
         return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
+    /**
+     * List of chapter
+     * @param onTOCResultListener
+     */
     public void getChapters(final OnTOCResultListener onTOCResultListener){
         Database.getInstance().getTableOfContent(id, new OnDataCompleteListener() {
             @Override

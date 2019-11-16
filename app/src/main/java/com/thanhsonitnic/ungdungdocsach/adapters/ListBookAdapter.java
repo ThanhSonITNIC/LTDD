@@ -1,9 +1,6 @@
 package com.thanhsonitnic.ungdungdocsach.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +13,9 @@ import androidx.annotation.Nullable;
 
 import com.thanhsonitnic.ungdungdocsach.R;
 import com.thanhsonitnic.ungdungdocsach.models.Book;
+import com.thanhsonitnic.ungdungdocsach.models.JacketImage;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListBookAdapter extends ArrayAdapter {
     private Context context;
@@ -44,7 +41,7 @@ public class ListBookAdapter extends ArrayAdapter {
 
         txtTitle.setText(books.get(position).getTitle());
         txtAuthor.setText(books.get(position).getAuthor());
-        imageView.setImageResource(books.get(position).getImage());
+        JacketImage.getInstance().loadImage(imageView, books.get(position).getImage());
 
         return convertView;
     }
