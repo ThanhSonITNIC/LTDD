@@ -1,37 +1,27 @@
 package com.thanhsonitnic.ungdungdocsach.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
-
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
 import com.google.android.material.navigation.NavigationView;
 import com.thanhsonitnic.ungdungdocsach.R;
+import com.thanhsonitnic.ungdungdocsach.interfaces.OnTOCResultListener;
+import com.thanhsonitnic.ungdungdocsach.models.Book;
+import com.thanhsonitnic.ungdungdocsach.models.Chapter;
 import com.thanhsonitnic.ungdungdocsach.models.Setting;
 
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.preference.PreferenceManager;
-
 import android.view.Menu;
-import android.view.WindowManager;
 import android.widget.SearchView;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class BookActivity extends AppCompatActivity{
 
@@ -40,65 +30,119 @@ public class BookActivity extends AppCompatActivity{
     NavigationView navigationView;
     DrawerLayout drawer;
     SearchView searchView;
+    ArrayList<Chapter> chapterArrayList = new ArrayList<>();
+    TextView txtContent, txtTitle, txtAuthor;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        addControls();
+        addEvents();
+        receiveInfo();
+        updateSettings();
+    }
+
+    private void addControls() {
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        txtContent = findViewById(R.id.txtContent);
+        txtTitle = navigationView.getHeaderView(0).findViewById(R.id.txtTitle);
+        txtAuthor = navigationView.getHeaderView(0).findViewById(R.id.txtAuthor);
+    }
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+    private void addEvents() {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_rate, R.id.nav_more)
                 .setDrawerLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            switch(menuItem.getItemId()){
-                case R.id.nav_home:
-                    Intent intent = new Intent(BookActivity.this, ListBookActivity.class);
-                    startActivity(intent);
-                    break;
-                case R.id.nav_rate:
-                    break;
-                case R.id.nav_more:
-                    break;
-                default:
-                    break;
-            }
+                switch(menuItem.getItemId()){
+                    case R.id.nav_home:
+                        finish();
+                        break;
+                    case R.id.nav_rate:
+                        break;
+                    case R.id.nav_more:
+                        break;
+                    default:
+                        setContent(menuItem.getItemId());
+                        break;
+                }
 
-            drawer.closeDrawer(GravityCompat.START);
-            return false;
+                drawer.closeDrawer(GravityCompat.START);
+                return false;
+            }
+        });
+    }
+
+    private void updateSettings() {
+        Setting setting = Setting.getInstance(this);
+        txtContent.setTextSize(setting.getContentTextSize());
+    }
+
+    /**
+     * get info from ListBookActivity
+     */
+    private void receiveInfo(){
+        Bundle bundle = getIntent().getExtras();
+        loadBook(new Book(bundle.getString(Book.KEY_ID), bundle.getString(Book.KEY_TITLE), bundle.getInt(Book.KEY_IMAGE), bundle.getString(Book.KEY_AUTHOR)));
+    }
+
+    /**
+     * Set book's content
+     *
+     * @param id
+     */
+    private void setContent(int id){
+        String content = "";
+        try {
+            content = chapterArrayList.get(id).getContent();
+        }catch (IndexOutOfBoundsException e){
+            content = "Field id in firestore must start at 0 and increase +1";
+        }catch (Exception e){
+            content = "Content not found";
+        }
+        txtContent.setText(content);
+    }
+
+    /**
+     * Load book infomation on ui
+     *
+     * @param book
+     */
+    private void loadBook(Book book) {
+        final Menu menu = navigationView.getMenu();
+
+        // load table of content
+        book.getChapters(new OnTOCResultListener() {
+            @Override
+            public void onResult(ArrayList<Chapter> chapters) {
+                chapterArrayList = chapters;
+                for (Chapter chapter : chapters) {
+                    menu.add(R.id.nav_more, Integer.parseInt(chapter.getId()), 0, chapter.getName());
+                }
+
+                // load content of first chapter
+                setContent(0);
             }
         });
 
-        loadTableOfContent();
-
-    }
-
-    private void loadTableOfContent() {
-        Menu menu = navigationView.getMenu();
-        menu.add(R.id.nav_more, Menu.NONE, 0, "Học gì bây giờ");
-        menu.add(R.id.nav_more, Menu.NONE, 0, "18+ Sai lầm hay mắc phải");
-        menu.add(R.id.nav_more, Menu.NONE, 0, "Sự thật đắng lòng");
-        menu.add(R.id.nav_more, Menu.NONE, 0, "Tổng quan về UX/UI");
-        menu.add(R.id.nav_more, Menu.NONE, 0, "Ngày đầu đi code dạo");
-        menu.add(R.id.nav_more, Menu.NONE, 0, "Lời cuối");
-        menu.add(R.id.nav_more, Menu.NONE, 0, "Học gì bây giờ");
-        menu.add(R.id.nav_more, Menu.NONE, 0, "18+ Sai lầm hay mắc phải");
-        menu.add(R.id.nav_more, Menu.NONE, 0, "Sự thật đắng lòng");
-        menu.add(R.id.nav_more, Menu.NONE, 0, "Tổng quan về UX/UI");
-        menu.add(R.id.nav_more, Menu.NONE, 0, "Ngày đầu đi code dạo");
-        menu.add(R.id.nav_more, Menu.NONE, 0, "Lời cuối");
+        // load book info
+        txtTitle.setText(book.getTitle());
+        txtAuthor.setText(book.getAuthor());
     }
 
     @Override
@@ -122,13 +166,6 @@ public class BookActivity extends AppCompatActivity{
         });
 
         return true;
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
     }
 
     @Override
