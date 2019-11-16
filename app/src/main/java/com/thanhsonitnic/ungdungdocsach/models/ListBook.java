@@ -10,9 +10,9 @@ public class ListBook {
     private ArrayList<Book> books = new ArrayList<>();
 
     private ListBook() {
-        books.add(new Book("hlj933h3hd3", "Ký sự code dạo", R.drawable.kscd, "Phạm Huy Hoàng"));
-        books.add(new Book("943hf4jf832", "Ngày xưa có một con bò", R.drawable.nxcmcb, "Phan Thanh Sơn"));
-        books.add(new Book("s0ud44426i7", "Bản thiết kế vĩ đại", R.drawable.btkvd, "Stephen Hawking"));
+        books.add(new Book("0", "Ký sự code dạo", "https://firebasestorage.googleapis.com/v0/b/ungdungdocsach.appspot.com/o/kscd.png?alt=media&token=6214d474-2481-4582-a16f-42c212202ea0", "Phạm Huy Hoàng"));
+        books.add(new Book("1", "Ngày xưa có một con bò", "https://firebasestorage.googleapis.com/v0/b/ungdungdocsach.appspot.com/o/nxcmcb.jpg?alt=media&token=d3f34182-5088-4a6f-ac54-5ede3eb44afd", "Phan Thanh Sơn"));
+        books.add(new Book("2", "Bản thiết kế vĩ đại", "https://firebasestorage.googleapis.com/v0/b/ungdungdocsach.appspot.com/o/btkvd.png?alt=media&token=e3f56170-3ddf-4a43-ad90-b43f8d4194f5", "Stephen Hawking"));
     }
 
     public static ListBook getInstance(){
