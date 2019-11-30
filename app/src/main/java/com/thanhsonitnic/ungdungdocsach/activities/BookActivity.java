@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -19,6 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class BookActivity extends AppCompatActivity{
     ImageView imgJackKet;
     Toolbar toolbar;
     Book book;
+    Boolean isFullScreen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,6 +183,14 @@ public class BookActivity extends AppCompatActivity{
     }
 
     @Override
+    public void onBackPressed() {
+        if(isFullScreen)
+            toggleFullScreen();
+        else
+            super.onBackPressed();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_settings:
@@ -187,12 +198,32 @@ public class BookActivity extends AppCompatActivity{
                 startActivity(intent);
                 break;
             case R.id.action_full_screen:
+                toggleFullScreen();
                 break;
             case R.id.action_auto_scroll:
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Toggle full screen
+     */
+    private void toggleFullScreen() {
+        ActionBar actionBar = getSupportActionBar();
+        if (!isFullScreen) {
+            if (actionBar != null)
+                actionBar.hide();
+
+            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+            if (actionBar != null)
+                actionBar.show();
+        }
+
+        isFullScreen = !isFullScreen;
     }
 
 }
